@@ -56,12 +56,22 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static char dmenumon[2] = "0"; /* component of roficmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_magenta, "-sf", col_gray4, NULL };
+static const char *roficmd[] = { "rofi", "-show", "run" };
+static const char *rofibangscmd[] = { "~/.bin/rofi-bangs.sh", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const char *firefoxcmd[]  = { "firefox", NULL };
 static const char *amixercmd[]  = { "st", "alsamixer" };
+static const char *volupcmd[] = { "amixer", "-q", "sset", "Master", "3%+" };
+static const char *voldowncmd[] = { "amixer", "-q", "sset", "Master", "3%-" };
+static const char *musiccmd[] = { "st", "ncmpcpp" };
+static const char *musictoggle[] = { "mpc", "-q", "toggle" };
+static const char *musicnext[] = { "mpc", "-q", "next" };
+static const char *musicprev[] = { "mpc", "-q", "pre" };
+static const char *scrotcmd[] = { "scrot", NULL };
+static const char *rangercmd[] = { "ranger", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -85,8 +95,8 @@ static Key keys[] = {
 	   { MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	// { MODKEY,                       XK_c,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = <++> } },
-	   { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	   { MODKEY|ShiftMask,             XK_d,      incnmaster,     {.i = -1 } },
+	   { MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
+	   { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = rofibangscmd } },
 	// { MODKEY,                       XK_e,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
@@ -96,7 +106,7 @@ static Key keys[] = {
 	   { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	// { MODKEY|ShiftMask,             XK_h,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	// { MODKEY|ShiftMask,             XK_i,      spawn,          {.v = <++> } },
+	   { MODKEY|ShiftMask,             XK_i,      incnmaster,     {.i = -1 } },
 	   { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	// { MODKEY|ShiftMask,             XK_j,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -104,16 +114,16 @@ static Key keys[] = {
 	   { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	// { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	// { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = <++> } },
-	// { MODKEY,                       XK_n,      spawn,          {.v = <++> } },
-	// { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = <++> } },
+	   { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = musiccmd } },
+	   { MODKEY,                       XK_n,      spawn,          {.v = musicnext } },
+	   { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = musicprev } },
 	// { MODKEY,                       XK_o,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_o,      spawn,          {.v = <++> } },
-	// { MODKEY,                       XK_p,      spawn,          {.v = <++> } },
-	// { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = <++> } },
+	   { MODKEY,                       XK_p,      spawn,          {.v = musictoggle } },
+	   { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = scrotcmd } },
 	   { MODKEY,                       XK_q,      killclient,     {0} },
 	   { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	// { MODKEY,                       XK_r,      spawn,          {.v = <++> } },
+	   { MODKEY,                       XK_r,      spawn,          {.v = rangercmd } },
 	// { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_s,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = <++> } },
@@ -131,6 +141,9 @@ static Key keys[] = {
 	// { MODKEY|ShiftMask,             XK_y,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_z,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_z,      spawn,          {.v = <++> } },
+	
+	   { MODKEY,                       XK_F1,     spawn,          {.v = voldowncmd } },
+	   { MODKEY,                       XK_F2,     spawn,          {.v = volupcmd } },
 
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
