@@ -72,6 +72,7 @@ static const char *musicnext[] = { "mpc", "-q", "next" };
 static const char *musicprev[] = { "mpc", "-q", "pre" };
 static const char *scrotcmd[] = { "scrot", NULL };
 static const char *rangercmd[] = { "ranger", NULL };
+static const char *poweroffcmd[] = { "systemctl", "poweroff" };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -126,7 +127,7 @@ static Key keys[] = {
 	   { MODKEY,                       XK_r,      spawn,          {.v = rangercmd } },
 	// { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_s,      spawn,          {.v = <++> } },
-	// { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = <++> } },
+	   { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = poweroffcmd } },
 	   { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	// { MODKEY|ShiftMask,             XK_t,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_u,      spawn,          {.v = <++> } },
