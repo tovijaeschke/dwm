@@ -72,6 +72,7 @@ static const char *musicnext[] = { "mpc", "-q", "next" };
 static const char *musicprev[] = { "mpc", "-q", "pre" };
 static const char *rangercmd[] = { "st", "-e", "ranger", NULL };
 static const char *poweroffcmd[] = { "systemctl", "poweroff", NULL };
+static const char *lockcmd[] = { "slock", NULL };
 
 static const char *changewp[] = { "/home/tovi/.bin/change_wp", NULL };
 
@@ -114,7 +115,7 @@ static Key keys[] = {
 	   { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	// { MODKEY|ShiftMask,             XK_k,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	// { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = <++> } },
+	   { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
 	   { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	   { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = musiccmd } },
 	   { MODKEY,                       XK_n,      spawn,          {.v = musicnext } },
