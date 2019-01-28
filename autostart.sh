@@ -7,6 +7,7 @@ xmodmap -e 'keycode 9 = Caps_Lock' &
 
 dunst &
 #nm-applet
+xautolock -time 10 -locker slock &
 feh --bg-fill ~/Pictures/Wallpapers/Vaporwave/lambo.jpg &
 compton -b --backend xrender &
 ~/.bin/greenclip daemon &
