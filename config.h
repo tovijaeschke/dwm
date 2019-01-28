@@ -59,7 +59,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of roficmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_magenta, "-sf", col_gray4, NULL };
 static const char *roficmd[] = { "rofi", "-show", "run" };
-static const char *rofibangscmd[] = { "~/.bin/rofi-bangs.sh", NULL };
+static const char *rofibangscmd[] = { "/home/tovi/.bin/rofi-bangs.sh", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const char *firefoxcmd[]  = { "firefox", NULL };
@@ -70,9 +70,10 @@ static const char *musiccmd[] = { "st", "ncmpcpp" };
 static const char *musictoggle[] = { "mpc", "-q", "toggle" };
 static const char *musicnext[] = { "mpc", "-q", "next" };
 static const char *musicprev[] = { "mpc", "-q", "pre" };
-static const char *scrotcmd[] = { "scrot", NULL };
-static const char *rangercmd[] = { "ranger", NULL };
-static const char *poweroffcmd[] = { "systemctl", "poweroff" };
+static const char *rangercmd[] = { "st", "-e", "ranger", NULL };
+static const char *poweroffcmd[] = { "systemctl", "poweroff", NULL };
+
+static const char *changewp[] = { "/home/tovi/.bin/change_wp", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -95,7 +96,7 @@ static Key keys[] = {
 	   { MODKEY,                       XK_b,      spawn,          {.v = firefoxcmd } },
 	   { MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	// { MODKEY,                       XK_c,      spawn,          {.v = <++> } },
-	// { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = <++> } },
+	   { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = changewp } },
 	   { MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
 	   { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = rofibangscmd } },
 	// { MODKEY,                       XK_e,      spawn,          {.v = <++> } },
@@ -121,7 +122,7 @@ static Key keys[] = {
 	// { MODKEY,                       XK_o,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_o,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_p,      spawn,          {.v = musictoggle } },
-	   { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = scrotcmd } },
+	// { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_q,      killclient,     {0} },
 	   { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	   { MODKEY,                       XK_r,      spawn,          {.v = rangercmd } },
