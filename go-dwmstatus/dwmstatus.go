@@ -20,21 +20,13 @@ func getVolumePerc() int {
 	return int(C.get_volume_perc())
 }
 
-func getBatteryPercentage(path string) (perc int, err error) {
-	energy_now, err := ioutil.ReadFile(fmt.Sprintf("%s/charge_now", path))
+func getBatteryPercentage(path string) (perc string, err error) {
+	bc, err := ioutil.ReadFile(fmt.Sprintf("%s/capacity", path))
 	if err != nil {
-		perc = -1
+		perc = ""
 		return
 	}
-	energy_full, err := ioutil.ReadFile(fmt.Sprintf("%s/charge_full", path))
-	if err != nil {
-		perc = -1
-		return
-	}
-	var enow, efull int
-	fmt.Sscanf(string(energy_now), "%d", &enow)
-	fmt.Sscanf(string(energy_full), "%d", &efull)
-	perc = enow * 100 / efull
+	perc = string(bc)
 	return
 }
 
@@ -132,11 +124,12 @@ func main() {
 		}
 		vol := getVolumePerc()
 		cpu_temp := getCpuTemp("/sys/class/thermal/thermal_zone0")
-		if b == -1 {
+		fmt.Println(b)
+		if b == "" {
 			s := formatStatus("%s - Vol: %d%% - Cpu: +%s° %s - %s ", m, vol, cpu_temp, l, t)
 			setStatus(s)
 		} else {
-			s := formatStatus("%s - Vol: %d%% - Cpu: +%s° %s - %s - %d%% ", m, vol, cpu_temp, l, t, b)
+			s := formatStatus("%s - Vol: %d%% - Cpu: +%s° %s - %s - Bat: %s%% ", m, vol, cpu_temp, l, t, b)
 			setStatus(s)
 		}
 		time.Sleep(time.Second)
