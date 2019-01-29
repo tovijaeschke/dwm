@@ -57,7 +57,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of roficmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_magenta, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_magenta, "-sf", col_gray4, NULL }; // grep for this in dwm.c
 static const char *roficmd[] = { "rofi", "-show", "run" };
 static const char *rofibangscmd[] = { "/home/tovi/.bin/rofi-bangs.sh", NULL };
 static const char *termcmd[]  = { "st", NULL };
