@@ -38,44 +38,12 @@ func getBatteryPercentage(path string) (perc int, err error) {
 	return
 }
 
-func getBatteryChargingStatus(path string) (isCharging bool, err error) {
-	status, err := ioutil.ReadFile(fmt.Sprintf("%s/status", path))
+func getCpuTemp(path string) string {
+	status, err := ioutil.ReadFile(fmt.Sprintf("%s/temp", path))
 	if err != nil {
-		return
+		return "Error"
 	}
-
-	isCharging = (string(status) == "Charging\n")
-
-	return
-}
-
-func getBatterySymbol(bat_percent int, charging bool) (symbol string) {
-
-	bat_full := ""
-	bat_3quater := ""
-	bat_half := ""
-	bat_quater := ""
-	bat_empty := ""
-
-	charging_symbol := ""
-
-	if bat_percent > 75 {
-		symbol = bat_full
-	} else if bat_percent > 50 {
-		symbol = bat_3quater
-	} else if bat_percent > 25 {
-		symbol = bat_half
-	} else if bat_percent > 10 {
-		symbol = bat_quater
-	} else {
-		symbol = bat_empty
-	}
-
-	if charging {
-		symbol = charging_symbol
-	}
-
-	return
+	return string(status[0:2])
 }
 
 func getLoadAverage(file string) (lavg string, err error) {
@@ -150,17 +118,10 @@ func main() {
 	}
 	for {
 		t := time.Now().Format("Mon 02 15:04")
-		/*
-			b, err := getBatteryPercentage("/sys/class/power_supply/BAT0")
-			if err != nil {
-				log.Println(err)
-			}
-			bc, err := getBatteryChargingStatus("/sys/class/power_supply/BAT0")
-			if err != nil {
-				log.Println(err)
-			}
-			bat_symbol := getBatterySymbol(b, bc)
-		*/
+		b, err := getBatteryPercentage("/sys/class/power_supply/BAT0")
+		if err != nil {
+			log.Println(err)
+		}
 		l, err := getLoadAverage("/proc/loadavg")
 		if err != nil {
 			log.Println(err)
@@ -170,9 +131,14 @@ func main() {
 			log.Println(err)
 		}
 		vol := getVolumePerc()
-		s := formatStatus("%s :: %d%% :: %s :: %s", m, vol, l, t)
-		//s := formatStatus("%s :: %d%% :: %s :: %s %s %d%%", m, vol, l, t, bat_symbol, b)
-		setStatus(s)
+		cpu_temp := getCpuTemp("/sys/class/thermal/thermal_zone0")
+		if b == -1 {
+			s := formatStatus("%s - Vol: %d%% - Cpu: +%s° %s - %s ", m, vol, cpu_temp, l, t)
+			setStatus(s)
+		} else {
+			s := formatStatus("%s - Vol: %d%% - Cpu: +%s° %s - %s - %d%% ", m, vol, cpu_temp, l, t, b)
+			setStatus(s)
+		}
 		time.Sleep(time.Second)
 	}
 }
