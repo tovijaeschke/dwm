@@ -155,7 +155,7 @@ func main() {
 		cpu_temp := getCpuTemp("/sys/class/thermal/thermal_zone0")
 		fmt.Println(b)
 		if b == "" {
-			s := formatStatus("%s - Vol: %d%% - Net: %s %s -Cpu: +%s° %s - %s ", m, vol, ipv4, ipv6, cpu_temp, l, t)
+			s := formatStatus("%s - Vol: %d%% - Net: %s %s - Cpu: +%s° %s - %s ", m, vol, ipv4, ipv6, cpu_temp, l, t)
 			setStatus(s)
 		} else {
 			s := formatStatus("%s - Vol: %d%% - Net: %s %s - Cpu: +%s° %s - %s - Bat: %s%% ", m, vol, ipv4, ipv6, cpu_temp, l, t, b)
