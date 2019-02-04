@@ -20,6 +20,35 @@ func getVolumePerc() int {
 	return int(C.get_volume_perc())
 }
 
+func NetworkInfo() (string, string) {
+	var ipv4, ipv6, hw string
+	interfaces, _ := net.Interfaces()
+	for _, inter := range interfaces {
+		addrs, _ := inter.Addrs()
+		for _, addr := range addrs {
+			var ip net.IP
+			switch v := addr.(type) {
+			case *net.IPNet:
+				ip = v.IP
+			case *net.IPAddr:
+				ip = v.IP
+			}
+			// process IP address
+			if !ip.IsLoopback() {
+				if ip.To4() != nil {
+					hw = inter.HardwareAddr.String()
+					ipv4 = ip.String()
+					continue
+				}
+				if ip.To16() != nil && ip.IsGlobalUnicast() {
+					ipv6 = ip.String()
+				}
+			}
+		}
+	}
+	return ipv4, ipv6
+}
+
 func getBatteryPercentage(path string) (perc string, err error) {
 	bc, err := ioutil.ReadFile(fmt.Sprintf("%s/capacity", path))
 	if err != nil {
@@ -109,6 +138,7 @@ func main() {
 		log.Fatal("Can't open display")
 	}
 	for {
+		ipv4, ipv6 := NetworkInfo()
 		t := time.Now().Format("Mon 02 15:04")
 		b, err := getBatteryPercentage("/sys/class/power_supply/BAT0")
 		if err != nil {
@@ -126,10 +156,10 @@ func main() {
 		cpu_temp := getCpuTemp("/sys/class/thermal/thermal_zone0")
 		fmt.Println(b)
 		if b == "" {
-			s := formatStatus("%s - Vol: %d%% - Cpu: +%s° %s - %s ", m, vol, cpu_temp, l, t)
+			s := formatStatus("%s - Vol: %d%% - Net: %s %s -Cpu: +%s° %s - %s ", m, vol, ipv4, ipv6, cpu_temp, l, t)
 			setStatus(s)
 		} else {
-			s := formatStatus("%s - Vol: %d%% - Cpu: +%s° %s - %s - Bat: %s%% ", m, vol, cpu_temp, l, t, b)
+			s := formatStatus("%s - Vol: %d%% - Net: %s %s - Cpu: +%s° %s - %s - Bat: %s%% ", m, vol, ipv4, ipv6, cpu_temp, l, t, b)
 			setStatus(s)
 		}
 		time.Sleep(time.Second)
