@@ -21,7 +21,7 @@ func getVolumePerc() int {
 }
 
 func NetworkInfo() (string, string) {
-	var ipv4, ipv6, hw string
+	var ipv4, ipv6 string
 	interfaces, _ := net.Interfaces()
 	for _, inter := range interfaces {
 		addrs, _ := inter.Addrs()
@@ -36,7 +36,6 @@ func NetworkInfo() (string, string) {
 			// process IP address
 			if !ip.IsLoopback() {
 				if ip.To4() != nil {
-					hw = inter.HardwareAddr.String()
 					ipv4 = ip.String()
 					continue
 				}
