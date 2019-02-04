@@ -56,10 +56,9 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of roficmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_magenta, "-sf", col_gray4, NULL }; // grep for this in dwm.c
-static const char *roficmd[] = { "rofi", "-show", "run" };
-static const char *rofibangscmd[] = { "/home/tovi/.bin/rofi-bangs.sh", NULL };
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_magenta, "-sf", col_black, NULL }; // grep for this in dwm.c
+static const char *dmenubangscmd[] = { "/home/tovi/.bin/dmenu-bangs", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const char *firefoxcmd[]  = { "firefox", NULL };
@@ -75,6 +74,7 @@ static const char *poweroffcmd[] = { "systemctl", "poweroff", NULL };
 static const char *lockcmd[] = { "slock", NULL };
 
 static const char *changewp[] = { "/home/tovi/.bin/change_wp", NULL };
+static const char *togglelock[] = { "/home/tovi/.bin/lock_toggle", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -98,8 +98,8 @@ static Key keys[] = {
 	   { MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	// { MODKEY,                       XK_c,      spawn,          {.v = <++> } },
 	   { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = changewp } },
-	   { MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
-	   { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = rofibangscmd } },
+	   { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	   { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = dmenubangscmd } },
 	// { MODKEY,                       XK_e,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
@@ -131,7 +131,7 @@ static Key keys[] = {
 	// { MODKEY,                       XK_s,      spawn,          {.v = <++> } },
 	   { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = poweroffcmd } },
 	   { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	// { MODKEY|ShiftMask,             XK_t,      spawn,          {.v = <++> } },
+	   { MODKEY|ShiftMask,             XK_t,      spawn,          {.v = togglelock } },
 	// { MODKEY,                       XK_u,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_u,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_v,      spawn,          {.v = <++> } },
@@ -148,8 +148,8 @@ static Key keys[] = {
 	   { MODKEY,                       XK_F1,     spawn,          {.v = voldowncmd } },
 	   { MODKEY,                       XK_F2,     spawn,          {.v = volupcmd } },
 
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	//{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+	//{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
