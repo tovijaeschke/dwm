@@ -33,7 +33,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
@@ -63,6 +63,7 @@ static const char *termcmd[]  = { "st", NULL };
 
 static const char *firefoxcmd[]  = { "firefox", NULL };
 static const char *amixercmd[]  = { "st", "alsamixer" };
+static const char *nnncmd[]  = { "st", "nnn" };
 static const char *volupcmd[] = { "amixer", "-q", "sset", "Master", "3%+" };
 static const char *voldowncmd[] = { "amixer", "-q", "sset", "Master", "3%-" };
 static const char *musiccmd[] = { "st", "ncmpcpp" };
@@ -120,12 +121,14 @@ static Key keys[] = {
 	   { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = musiccmd } },
 	   { MODKEY,                       XK_n,      spawn,          {.v = musicnext } },
 	   { MODKEY|ShiftMask,             XK_n,      spawn,          {.v = musicprev } },
-	// { MODKEY,                       XK_o,      spawn,          {.v = <++> } },
+           { MODKEY,                       XK_o,      spawn,          {.v = nnncmd } },
 	// { MODKEY|ShiftMask,             XK_o,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_p,      spawn,          {.v = musictoggle } },
 	// { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = <++> } },
 	   { MODKEY,                       XK_q,      killclient,     {0} },
 	   { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+
+           { MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 	   { MODKEY,                       XK_r,      spawn,          {.v = rangercmd } },
 	// { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_s,      spawn,          {.v = <++> } },
