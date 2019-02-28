@@ -63,7 +63,7 @@ static const char *termcmd[]  = { "st", NULL };
 
 static const char *firefoxcmd[]  = { "firefox", NULL };
 static const char *amixercmd[]  = { "st", "alsamixer" };
-static const char *nnncmd[]  = { "st", "nnn" };
+static const char *nnncmd[]  = { "st", "nnn", NULL };
 static const char *volupcmd[] = { "amixer", "-q", "sset", "Master", "3%+" };
 static const char *voldowncmd[] = { "amixer", "-q", "sset", "Master", "3%-" };
 static const char *musiccmd[] = { "st", "ncmpcpp" };
@@ -73,6 +73,8 @@ static const char *musicprev[] = { "mpc", "-q", "pre" };
 static const char *rangercmd[] = { "st", "-e", "ranger", NULL };
 static const char *poweroffcmd[] = { "systemctl", "poweroff", NULL };
 static const char *lockcmd[] = { "slock", NULL };
+
+static const char *wifimenucmd[] = { "st", "nmtui", NULL };
 
 static const char *changewp[] = { "/home/tovi/.bin/change_wp", NULL };
 static const char *togglelock[] = { "/home/tovi/.bin/lock_toggle", NULL };
@@ -139,7 +141,7 @@ static Key keys[] = {
 	// { MODKEY|ShiftMask,             XK_u,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_v,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_v,      spawn,          {.v = <++> } },
-	// { MODKEY,                       XK_w,      spawn,          {.v = <++> } },
+	   { MODKEY,                       XK_w,      spawn,          {.v = wifimenucmd } },
 	// { MODKEY|ShiftMask,             XK_w,      spawn,          {.v = <++> } },
 	// { MODKEY,                       XK_x,      spawn,          {.v = <++> } },
 	// { MODKEY|ShiftMask,             XK_x,      spawn,          {.v = <++> } },
