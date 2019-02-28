@@ -71,7 +71,7 @@ static const char *musictoggle[] = { "mpc", "-q", "toggle" };
 static const char *musicnext[] = { "mpc", "-q", "next" };
 static const char *musicprev[] = { "mpc", "-q", "pre" };
 static const char *rangercmd[] = { "st", "-e", "ranger", NULL };
-static const char *poweroffcmd[] = { "systemctl", "poweroff", NULL };
+static const char *poweroffcmd[] = { "/home/tovi/.bin/dmenu-scripts/dmenu-shutdown", NULL };
 static const char *lockcmd[] = { "slock", NULL };
 
 static const char *wifimenucmd[] = { "st", "nmtui", NULL };
